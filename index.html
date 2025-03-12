@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบสแกน QR Code และ Barcode</title>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        #reader {
+            width: 100%;
+            max-width: 500px;
+            margin: auto;
+        }
+        #result {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>ระบบสแกน QR Code และ Barcode</h2>
+    <button onclick="stopScanner()">❌ ปิดกล้อง</button>
+
+    <div id="reader"></div>
+    <p id="result">ผลลัพธ์: <span id="output">ยังไม่มีข้อมูล</span></p>
+
+    <script>
+        let scanner;
+
+        function startScanner() {
+            scanner = new Html5Qrcode("reader");
+
+            scanner.start(
+                { facingMode: "environment" }, // ใช้กล้องหลังมือถือ
+                { fps: 10, qrbox: 250 },
+                (decodedText) => {
+                    document.getElementById('output').innerText = decodedText;
+                    console.log(`Scanned result: ${decodedText}`);
+                    stopScanner(); // หยุดกล้องอัตโนมัติหลังสแกน
+                },
+                (error) => {
+                    console.warn(`Scan error: ${error}`);
+                }
+            ).catch(err => console.error("Camera error:", err));
+        }
+
+        function stopScanner() {
+            if (scanner) {
+                scanner.stop().then(() => {
+                    console.log("Scanner stopped.");
+                }).catch(err => console.error("Stop error:", err));
+            }
+        }
+
+        // ✅ เปิดกล้องอัตโนมัติเมื่อโหลดหน้าเว็บ
+        window.onload = startScanner;
+    </script>
+
+</body>
+</html>
