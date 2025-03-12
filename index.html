@@ -51,13 +51,13 @@
                     console.log(`Scanned result: ${decodedText}`);
                     // ส่งข้อมูลไปที่ Google Apps Script
                     fetch('https://script.google.com/macros/s/AKfycbwEuL20dvsI-T-eoUib51BeO9oDjFeBCtCJ803ncF_Gtv2jVGpt1ghZhIOHy0c-Zv-uZA/exec', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ scannedData: decodedText }),
-    mode: 'no-cors' // ✅ ปิดการตรวจสอบ CORS
-})
-.then(response => console.log('Request sent'))
-.catch(error => console.error('Error:', error));
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ scannedData: decodedText }),
+                        mode: 'no-cors' // ✅ ปิดการตรวจสอบ CORS
+                    })
+                    .then(response => console.log('Request sent'))
+                    .catch(error => console.error('Error:', error));
                     stopScanner(); // หยุดกล้องอัตโนมัติหลังสแกน
                 },
                 (error) => {
